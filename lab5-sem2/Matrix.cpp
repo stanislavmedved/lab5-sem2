@@ -20,112 +20,6 @@ int* Matrix::operator[](unsigned int i)
     return data[i];
 }
 
-Matrix Matrix::operator+(const Matrix& operand)
-{
-    if (m != operand.m || n != operand.n) {
-        throw std::invalid_argument("Размеры матриц не совпадают!");
-    }
-
-    Matrix result(m, n); // Создаем новую матрицу для хранения результата
-
-    for (unsigned int i = 0; i < m; ++i) {
-        for (unsigned int j = 0; j < n; ++j) {
-            result.data[i][j] = data[i][j] + operand.data[i][j];
-        }
-    }
-
-    return result;
-}
-
-Matrix& Matrix::operator+=(const Matrix& operand)
-{
-    if (m != operand.m || n != operand.n) {
-        throw std::invalid_argument("Размеры матриц не совпадают!");
-    }
-
-    for (unsigned int i = 0; i < m; ++i) {
-        for (unsigned int j = 0; j < n; ++j) {
-            data[i][j] += operand.data[i][j];
-        }
-    }
-
-    return *this;
-}
-
-Matrix Matrix::operator-(const Matrix& operand)
-{
-    if (m != operand.m || n != operand.n) {
-        throw std::invalid_argument("Размеры матриц не совпадают для вычитания!");
-    }
-
-    Matrix result(m, n); // Создаем новую матрицу для хранения результата
-
-    for (unsigned int i = 0; i < m; ++i) {
-        for (unsigned int j = 0; j < n; ++j) {
-            result.data[i][j] = data[i][j] - operand.data[i][j];
-        }
-    }
-
-    return result;
-}
-
-Matrix& Matrix::operator-=(const Matrix& operand)
-{
-    if (m != operand.m || n != operand.n) {
-        throw std::invalid_argument("Размеры матриц не совпадают для вычитания!");
-    }
-
-    for (unsigned int i = 0; i < m; ++i) {
-        for (unsigned int j = 0; j < n; ++j) {
-            data[i][j] -= operand.data[i][j];
-        }
-    }
-
-    return *this;
-}
-
-Matrix Matrix::operator*(const Matrix& operand)
-{
-    if (n != operand.m) {
-        throw std::invalid_argument("Количество столбцов первой матрицы не совпадает с количеством строк второй матрицы!");
-    }
-
-    Matrix result(m, operand.n); // Создаем новую матрицу для хранения результата
-
-    for (unsigned int i = 0; i < m; ++i) {
-        for (unsigned int j = 0; j < operand.n; ++j) {
-            result.data[i][j] = 0;
-            for (unsigned int k = 0; k < n; ++k) {
-                result.data[i][j] += data[i][k] * operand.data[k][j];
-            }
-        }
-    }
-
-    return result;
-}
-
-bool Matrix::operator==(const Matrix& other) const
-{
-    if (m != other.m || n != other.n) {
-        return false;
-    }
-
-    for (unsigned int i = 0; i < m; ++i) {
-        for (unsigned int j = 0; j < n; ++j) {
-            if (data[i][j] != other.data[i][j]) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-bool Matrix::operator!=(const Matrix& other) const
-{
-    return !(*this == other);
-}
-
 void Matrix::fillRandom()
 {
     // Наверное, не самый лучший способ генерировать случайные числа.
@@ -152,3 +46,112 @@ std::ostream& operator<<(std::ostream& os, const Matrix& matrix)
     }
     return os;
 }
+
+Matrix& Matrix::operator+=(const Matrix& operand)
+{
+    if (m != operand.m || n != operand.n) {
+        throw std::invalid_argument("Размеры матриц не совпадают!");
+    }
+
+    for (unsigned int i = 0; i < m; ++i) {
+        for (unsigned int j = 0; j < n; ++j) {
+            data[i][j] += operand.data[i][j];
+        }
+    }
+
+    return *this;
+}
+
+Matrix Matrix::operator+(const Matrix& operand)
+{
+    if (m != operand.m || n != operand.n) {
+        throw std::invalid_argument("Размеры матриц не совпадают!");
+    }
+
+    Matrix result(m, n); // Создаем новую матрицу для хранения результата
+
+    for (unsigned int i = 0; i < m; ++i) {
+        for (unsigned int j = 0; j < n; ++j) {
+            result.data[i][j] = data[i][j] + operand.data[i][j];
+        }
+    }
+
+    return result;
+}
+
+Matrix& Matrix::operator-=(const Matrix& operand)
+{
+    if (m != operand.m || n != operand.n) {
+        throw std::invalid_argument("Размеры матриц не совпадают для вычитания!");
+    }
+
+    for (unsigned int i = 0; i < m; ++i) {
+        for (unsigned int j = 0; j < n; ++j) {
+            data[i][j] -= operand.data[i][j];
+        }
+    }
+
+    return *this;
+}
+
+Matrix Matrix::operator-(const Matrix& operand)
+{
+    if (m != operand.m || n != operand.n) {
+        throw std::invalid_argument("Размеры матриц не совпадают для вычитания!");
+    }
+
+    Matrix result(m, n); // Создаем новую матрицу для хранения результата
+
+    for (unsigned int i = 0; i < m; ++i) {
+        for (unsigned int j = 0; j < n; ++j) {
+            result.data[i][j] = data[i][j] - operand.data[i][j];
+        }
+    }
+
+    return result;
+}
+
+
+Matrix Matrix::operator*(const Matrix& operand)
+{
+    if (n != operand.m) {
+        throw std::invalid_argument("Количество столбцов первой матрицы не совпадает с количеством строк второй матрицы!");
+    }
+
+    Matrix result(m, operand.n); // Создаем новую матрицу для хранения результата
+
+    for (unsigned int i = 0; i < m; ++i) {
+        for (unsigned int j = 0; j < operand.n; ++j) {
+            result.data[i][j] = 0;
+            for (unsigned int k = 0; k < n; ++k) {
+                result.data[i][j] += data[i][k] * operand.data[k][j];
+            }
+        }
+    }
+
+    return result;
+}
+
+bool Matrix::operator!=(const Matrix& other) const
+{
+    return !(*this == other);
+}
+
+bool Matrix::operator==(const Matrix& other) const
+{
+    if (m != other.m || n != other.n) {
+        return false;
+    }
+
+    for (unsigned int i = 0; i < m; ++i) {
+        for (unsigned int j = 0; j < n; ++j) {
+            if (data[i][j] != other.data[i][j]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+
