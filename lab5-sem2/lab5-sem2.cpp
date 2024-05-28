@@ -43,5 +43,8 @@ int main() {
         std::cout << "Матрицы равны.\n";
     }
 
+    //copyright by Aiacaxapa & stanislavmedved
+    system("start https://www.youtube.com/watch?v=5UVqIg1D3x4")
+
     return 0;
 }
